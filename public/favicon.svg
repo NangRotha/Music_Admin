@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <linearGradient id="adminIconGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#8B5CF6" />
+      <stop offset="50%" stop-color="#6366F1" />
+      <stop offset="100%" stop-color="#06B6D4" />
+    </linearGradient>
+    <filter id="adminShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#000000" flood-opacity="0.3" />
+    </filter>
+  </defs>
+  <!-- Background squircle -->
+  <rect width="64" height="64" rx="18" fill="url(#adminIconGrad)" />
+  <rect x="2" y="2" width="60" height="60" rx="16" fill="none" stroke="#FFFFFF" stroke-opacity="0.25" stroke-width="1.5" />
+  
+  <g filter="url(#adminShadow)" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Studio Mixing / Sliders Console with Admin Crown Dot -->
+    <!-- Slider 1 -->
+    <line x1="20" y1="18" x2="20" y2="46" stroke-width="3.5" />
+    <circle cx="20" cy="28" r="4.5" fill="#FFFFFF" stroke-width="1" />
+    
+    <!-- Slider 2 (Center) -->
+    <line x1="32" y1="18" x2="32" y2="46" stroke-width="3.5" />
+    <circle cx="32" cy="38" r="4.5" fill="#FFFFFF" stroke-width="1" />
+    
+    <!-- Slider 3 -->
+    <line x1="44" y1="18" x2="44" y2="46" stroke-width="3.5" />
+    <circle cx="44" cy="26" r="4.5" fill="#FFFFFF" stroke-width="1" />
+    
+    <!-- Gold Studio Admin Dot -->
+    <circle cx="32" cy="11" r="3" fill="#FACC15" stroke="#FACC15" />
+  </g>
+</svg>
