@@ -5,7 +5,7 @@ import tailwindcss from '@tailwindcss/vite'
 // https://vite.dev/config/
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '')
-  const backendTarget = env.VITE_BACKEND_URL || 'http://localhost:8000'
+  const backendTarget = env.VITE_BACKEND_URL || 'https://music-backend-7273.onrender.com'
 
   return {
     plugins: [react(), tailwindcss()],
@@ -15,10 +15,12 @@ export default defineConfig(({ mode }) => {
         '/api': {
           target: backendTarget,
           changeOrigin: true,
+          secure: false,
         },
         '/uploads': {
           target: backendTarget,
           changeOrigin: true,
+          secure: false,
         },
       }
     }
