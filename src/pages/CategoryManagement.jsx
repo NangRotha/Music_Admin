@@ -160,6 +160,7 @@ export const CategoryManagement = ({ siteSettings }) => {
 
       const res = await authFetch(url, {
         method,
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
       });
 
@@ -170,7 +171,19 @@ export const CategoryManagement = ({ siteSettings }) => {
         broadcastChange();
       } else {
         const data = await res.json().catch(() => ({}));
-        setFormError(data.detail || 'បរាជ័យក្នុងការរក្សាទុក (Failed to save category)');
+        let detail = data.detail;
+        if (Array.isArray(detail)) {
+          detail = detail
+            .map((d) => (d && typeof d === 'object' && d.msg ? d.msg : String(d)))
+            .join('; ');
+        } else if (detail && typeof detail === 'object') {
+          detail = JSON.stringify(detail);
+        }
+        setFormError(
+          typeof detail === 'string' && detail.trim()
+            ? detail
+            : 'បរាជ័យក្នុងការរក្សាទុក (Failed to save category)'
+        );
       }
     } catch (err) {
       console.error(err);
@@ -184,6 +197,7 @@ export const CategoryManagement = ({ siteSettings }) => {
     try {
       const res = await authFetch(`/api/categories/${cat.id}`, {
         method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ is_active: !cat.is_active })
       });
       if (res.ok) {
