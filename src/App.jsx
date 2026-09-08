@@ -121,6 +121,8 @@ const AdminCMS = () => {
       {/* Main Content Area */}
       <main className="flex-1 p-4 sm:p-6 md:p-8 lg:p-10 overflow-y-auto max-h-screen">
         <div className="max-w-6xl mx-auto">
+          {/* Fade-up transition whenever the active tab changes */}
+          <div key={currentTab} className="animate-fade-up">
           {currentTab === 'dashboard' && (
             <DashboardOverview
               setCurrentTab={setCurrentTab}
@@ -176,6 +178,7 @@ const AdminCMS = () => {
               refreshSettings={fetchSettings}
             />
           )}
+          </div>
         </div>
       </main>
 
