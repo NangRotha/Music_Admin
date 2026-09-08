@@ -93,9 +93,19 @@ export const MusicManagement = ({ siteSettings }) => {
       };
     } catch (e) {}
 
+    // Real-time: silently refresh the catalog while this tab is visible so edits
+    // made from other browsers/tabs (or the storefront) appear automatically.
+    const interval = setInterval(() => {
+      if (document.visibilityState !== 'hidden') {
+        fetchMusic(true);
+        fetchCategories();
+      }
+    }, 12000);
+
     return () => {
       audio.pause();
       if (channel) channel.close();
+      clearInterval(interval);
     };
   }, [fetchMusic, fetchCategories]);
 
@@ -699,17 +709,20 @@ export const MusicManagement = ({ siteSettings }) => {
                 )}
               </div>
 
-              {/* Preview Audio File Upload / URL */}
+              {/* Track Audio File (also the paid download file) */}
               <div>
                 <label className="block text-xs font-semibold text-slate-300 mb-1">
-                  សំឡេងស្ដាប់សាកល្បង (Preview Audio File .mp3, .wav)
+                  ឯកសារសំឡេងបទ (Audio File) — MP3, WAV, M4A, FLAC, OGG...
                 </label>
+                <p className="text-[10px] text-slate-500 mb-1.5">
+                  អតិថិជនស្ដាប់សាកល្បង និងទាញយកឯកសារនេះបន្ទាប់ពីទូទាត់ជោគជ័យ • Buyers listen &amp; download this exact file after paying
+                </p>
                 <div className="flex gap-2">
                   <input
                     type="text"
                     value={formData.preview_audio_url}
                     onChange={(e) => setFormData({ ...formData, preview_audio_url: e.target.value })}
-                    placeholder="Upload audio file or audio URL"
+                    placeholder="Upload any audio file or paste audio URL"
                     className="flex-1 px-3.5 py-2 bg-slate-950 border border-slate-800 rounded-xl text-xs text-white focus:outline-none focus:border-purple-500"
                   />
                   <label className="px-3.5 py-2 bg-slate-800 hover:bg-slate-700 text-white rounded-xl text-xs font-semibold cursor-pointer flex items-center gap-1 shrink-0">
@@ -717,12 +730,27 @@ export const MusicManagement = ({ siteSettings }) => {
                     <span>{uploadingAudio ? '...' : 'Upload Audio'}</span>
                     <input
                       type="file"
-                      accept="audio/*"
+                      accept="audio/*,.mp3,.wav,.m4a,.flac,.ogg,.opus,.aac,.webm"
                       className="hidden"
                       onChange={(e) => handleFileUpload(e, 'audio')}
                     />
                   </label>
                 </div>
+                {formData.preview_audio_url && (
+                  <div className="mt-2 flex flex-wrap items-center gap-2">
+                    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 border border-emerald-500/25 text-[10px] font-bold">
+                      <CheckCircle2 className="w-3 h-3" />
+                      Delivered to buyers after ABA payment
+                    </span>
+                    <span className="text-[10px] font-mono text-slate-400">
+                      {(function () {
+                        const p = (formData.preview_audio_url || '').split(/[?#]/)[0];
+                        const m = p.match(/\.([a-z0-9]{2,5})$/i);
+                        return m ? m[1].toUpperCase() + ' file' : 'file (type detected at download)';
+                      })()}
+                    </span>
+                  </div>
+                )}
               </div>
 
               {/* Featured toggle */}
