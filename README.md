@@ -120,21 +120,24 @@ VITE_UPLOADTHING_APP_ID=vudv42k77n
 
 ## 🚢 Deploying to Vercel
 
-This CMS dashboard is pre-configured with `vercel.json` to seamlessly proxy all `/api/*` and `/uploads/*` requests directly to your live Render backend:
+This CMS dashboard ships with a `vercel.json` that installs/builds the app (`npm ci` → `npm run build` → `dist/`) and proxies all `/api/*` and `/uploads/*` requests to the live Render backend — so **no environment variables are required** (`.env.production` already holds the defaults).
 
-1. Push your code to **GitHub**.
+1. Push your code to **GitHub** (this repository already contains the app at its root).
 2. In [Vercel Dashboard](https://vercel.com/dashboard), click **Add New...** → **Project**.
-3. Import your repository.
-4. Set **Root Directory** to:
-   ```
-   frontend-admin
-   ```
-5. Add the Environment Variables:
+3. Import the repository.
+4. In **Configure Project**:
+   - **Framework Preset**: `Vite` (auto-detected)
+   - **Root Directory**: leave it as the **repository root** (`./`) ⚠️ — this repo *is* the app, so do **not** type `frontend-admin` (Vercel fails with *“The specified Root Directory does not exist”* when that folder isn't present).
+   - **Build Command / Output Directory**: already set in `vercel.json` (`npm run build` → `dist`), no need to change.
+   - **Node.js Version**: 20.19+ (Vite 8 requirement) — enforced by `engines.node` in `package.json`.
+5. (Optional) Environment Variables — only needed to override the defaults:
    - `VITE_API_BASE_URL`: `/api`
    - `VITE_BACKEND_URL`: `https://music-backend-7273.onrender.com`
    - `VITE_PORTAL_NAME`: `KhmerBeats Admin CMS`
    - `VITE_UPLOADTHING_APP_ID`: `vudv42k77n`
 6. Click **Deploy**!
+
+> ⚠️ **Don't pick the domain `music-admin.vercel.app` blindly** — that name is already taken by an unrelated project. Give your admin project its own unique name in Vercel.
 
 ---
 
